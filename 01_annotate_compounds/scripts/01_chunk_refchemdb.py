@@ -1,9 +1,14 @@
+"""
+Splits RefChemDB dataset into smaller CSV chunks based on dsstox_substance_id for downstream processing.
+"""
+
 import polars as pl
+import math
 
 
 def main():
     # Process RefChemDB
-    refchemdb = pl.read_csv(f"../data/refchemdb/refchemdb.csv").select(
+    refchemdb = pl.read_csv("../data/refchemdb/refchemdb.csv").select(
         'dsstox_substance_id'
     ).unique()
 

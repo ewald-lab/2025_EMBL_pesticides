@@ -1,8 +1,9 @@
-import polars as pl
-import pandas as pd
-import math
-from standardize_smiles import StandardizeMolecule
+"""
+Standardizes SMILES structures for pesticides, drugs, and RefChemDB datasets and saves the results.
+"""
 
+import pandas as pd
+from standardize_smiles import StandardizeMolecule
 
 
 def main():
@@ -10,13 +11,13 @@ def main():
     num_cpus=8
 
     # Read in compound lists
-    pesticides = pd.read_csv(f"../data/pesticides.csv")
+    pesticides = pd.read_csv("../data/pesticides.csv")
 
     # Read in drugs
-    drugs = pd.read_csv(f"../data/drugs.csv")
+    drugs = pd.read_csv("../data/drugs.csv")
     drugs = drugs.drop(columns=["SMILES"])
 
-    drug_smiles = pd.read_csv(f"../data/drugs_cas_to_smiles.csv")
+    drug_smiles = pd.read_csv("../data/drugs_cas_to_smiles.csv")
     drug_smiles = drug_smiles[drug_smiles["SMILES"].notna() & (drug_smiles["SMILES"] != "")]
 
     drugs = drugs.merge(drug_smiles, on="CAS Number", how="inner")
@@ -42,7 +43,7 @@ def main():
     standardized_drugs.to_csv("../data/standardized_drugs.csv", index=False)
 
     standardized_refchemdb = StandardizeMolecule(input=refchemdb, augment=True, num_cpu=num_cpus).run()
-    standardized_refchemdb.to_csv("../data/standardized_refchemdb.csv", index=False)
+    standardized_refchemdb.to_csv("../data/refchemdb/standardized_refchemdb.csv", index=False)
 
 
 
