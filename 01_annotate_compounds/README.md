@@ -2,7 +2,7 @@ We use uv as a Python package manager. The environment for this module is called
 
 ```
 # Create the uv environment (only needed the first time)
-uv venv pesticides
+uv venv --python=3.12 pesticides
 
 # Activate the environment
 source pesticides/bin/activate  # On macOS/Linux
